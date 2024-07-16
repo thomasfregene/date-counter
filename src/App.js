@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default function App() {
+  return <Counter />;
 }
 
-export default App;
+function Counter() {
+  const [counter, setCount] = useState(0);
+  const [step, setStep] = useState(1);
+
+  function handlePreviousStep() {
+    setStep((s) => s - 1);
+  }
+
+  function handleNextStep() {
+    setStep((s) => s + 1);
+  }
+
+  const date = new Date();
+  date.setDate(date.getDate() + counter);
+
+  return (
+    <>
+      <div>
+        <button onClick={handlePreviousStep}>-</button>
+        <span>Step: {step}</span>
+        <button onClick={handleNextStep}>+</button>
+      </div>
+      <div>
+        <button onClick={() => setCount((c) => c - step)}>-</button>
+        <span>Counter: {counter}</span>
+        <button onClick={() => setCount((c) => c + step)}>+</button>
+      </div>
+
+      <p>
+        <span>
+          {counter === 0
+            ? "Today is "
+            : counter > 0
+            ? `${counter} days from today is `
+            : `${Math.abs(counter)} days ago was `}
+        </span>
+        <span>{date.toDateString()}</span>
+      </p>
+    </>
+  );
+}
